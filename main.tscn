@@ -1,0 +1,333 @@
+[gd_scene load_steps=16 format=3 uid="uid://bompti4kn462b"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_jbj7a"]
+[ext_resource type="Script" path="res://scripts/system_info_label.gd" id="1_jnk34"]
+[ext_resource type="Script" path="res://scripts/fps_warning_label.gd" id="1_ufhf3"]
+[ext_resource type="Script" path="res://scripts/settings_label.gd" id="2_cj8s4"]
+[ext_resource type="Script" path="res://scripts/frame_stat_label.gd" id="3_rco3n"]
+[ext_resource type="Script" path="res://scripts/hardware_cursor_mover.gd" id="4_7a8vs"]
+[ext_resource type="Script" path="res://scripts/process_mover.gd" id="5_prjey"]
+[ext_resource type="Script" path="res://scripts/physics_mover.gd" id="6_hlt8f"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8a07k"]
+line_spacing = 2.0
+font_size = 14
+font_color = Color(1, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kwh3a"]
+line_spacing = 2.0
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_3dnnh"]
+font_size = 20
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4crgh"]
+line_spacing = 2.0
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_0a54l"]
+line_spacing = 2.0
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_fmvfp"]
+line_spacing = 2.0
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_574rq"]
+font_color = Color(1, 1, 0, 1)
+
+[node name="Main" type="Node2D"]
+process_mode = 3
+process_priority = 10
+process_physics_priority = 10
+script = ExtResource("1_jbj7a")
+metadata/_edit_lock_ = true
+
+[node name="Background" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+z_index = -10
+offset_right = 960.0
+offset_bottom = 540.0
+color = Color(0.187176, 0.187176, 0.187176, 1)
+metadata/_edit_lock_ = true
+
+[node name="Line2D" type="Line2D" parent="Background"]
+position = Vector2(192, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D2" type="Line2D" parent="Background"]
+position = Vector2(256, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D3" type="Line2D" parent="Background"]
+position = Vector2(320, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D4" type="Line2D" parent="Background"]
+position = Vector2(384, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D5" type="Line2D" parent="Background"]
+position = Vector2(448, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D6" type="Line2D" parent="Background"]
+position = Vector2(512, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D7" type="Line2D" parent="Background"]
+position = Vector2(576, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D8" type="Line2D" parent="Background"]
+position = Vector2(640, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D9" type="Line2D" parent="Background"]
+position = Vector2(704, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D10" type="Line2D" parent="Background"]
+position = Vector2(768, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Line2D11" type="Line2D" parent="Background"]
+position = Vector2(832, 160)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 2.0
+default_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Labels" type="Node" parent="."]
+
+[node name="Label" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 16.0
+offset_right = 928.0
+offset_bottom = 91.0
+text = "For test results to be valid, hardware cursor must be enabled and supported by the windowing system, and captures must be taken with a hardware camera or HDMI output to capture card. Software capture will produce incorrect results. If V-Sync is off or the refresh rate doesn't match the physics rate, cap the framerate with [Enter] or the test won't make much sense."
+label_settings = SubResource("LabelSettings_8a07k")
+autowrap_mode = 2
+
+[node name="Label17" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 96.0
+offset_right = 928.0
+offset_bottom = 144.0
+text = "Capture an image, then count how many spaces ahead the Reference is (going to the right, wrapping from right to left), and add 1. This should give you the number of frames of lag."
+label_settings = SubResource("LabelSettings_kwh3a")
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 184.0
+offset_right = 160.0
+offset_bottom = 207.0
+text = "Reference"
+horizontal_alignment = 2
+
+[node name="Label3" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 216.0
+offset_right = 160.0
+offset_bottom = 239.0
+text = "Process"
+horizontal_alignment = 2
+
+[node name="Label4" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 248.0
+offset_right = 160.0
+offset_bottom = 271.0
+text = "Physics process"
+horizontal_alignment = 2
+
+[node name="Label5" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 304.0
+offset_right = 160.0
+offset_bottom = 327.0
+text = "Frame"
+horizontal_alignment = 2
+
+[node name="Label6" type="Label" parent="Labels"]
+offset_left = 192.0
+offset_top = 304.0
+offset_right = 256.0
+offset_bottom = 327.0
+text = "0"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="Labels"]
+offset_left = 256.0
+offset_top = 304.0
+offset_right = 320.0
+offset_bottom = 327.0
+text = "1"
+horizontal_alignment = 1
+
+[node name="Label8" type="Label" parent="Labels"]
+offset_left = 320.0
+offset_top = 304.0
+offset_right = 384.0
+offset_bottom = 327.0
+text = "2"
+horizontal_alignment = 1
+
+[node name="Label9" type="Label" parent="Labels"]
+offset_left = 384.0
+offset_top = 304.0
+offset_right = 448.0
+offset_bottom = 327.0
+text = "3"
+horizontal_alignment = 1
+
+[node name="Label10" type="Label" parent="Labels"]
+offset_left = 448.0
+offset_top = 304.0
+offset_right = 512.0
+offset_bottom = 327.0
+text = "4"
+horizontal_alignment = 1
+
+[node name="Label11" type="Label" parent="Labels"]
+offset_left = 512.0
+offset_top = 304.0
+offset_right = 576.0
+offset_bottom = 327.0
+text = "5"
+horizontal_alignment = 1
+
+[node name="Label12" type="Label" parent="Labels"]
+offset_left = 576.0
+offset_top = 304.0
+offset_right = 640.0
+offset_bottom = 327.0
+text = "6"
+horizontal_alignment = 1
+
+[node name="Label13" type="Label" parent="Labels"]
+offset_left = 640.0
+offset_top = 304.0
+offset_right = 704.0
+offset_bottom = 327.0
+text = "7"
+horizontal_alignment = 1
+
+[node name="Label14" type="Label" parent="Labels"]
+offset_left = 704.0
+offset_top = 304.0
+offset_right = 768.0
+offset_bottom = 327.0
+text = "8"
+horizontal_alignment = 1
+
+[node name="Label15" type="Label" parent="Labels"]
+offset_left = 768.0
+offset_top = 304.0
+offset_right = 832.0
+offset_bottom = 327.0
+text = "9"
+horizontal_alignment = 1
+
+[node name="FpsWarningLabel" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 368.0
+offset_right = 928.0
+offset_bottom = 396.0
+text = "
+"
+label_settings = SubResource("LabelSettings_3dnnh")
+horizontal_alignment = 1
+script = ExtResource("1_ufhf3")
+
+[node name="SystemInfoLabel" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 448.0
+offset_right = 928.0
+offset_bottom = 472.0
+text = "System info"
+label_settings = SubResource("LabelSettings_4crgh")
+script = ExtResource("1_jnk34")
+
+[node name="SettingsLabel" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 472.0
+offset_right = 928.0
+offset_bottom = 496.0
+text = "Application settings"
+label_settings = SubResource("LabelSettings_0a54l")
+script = ExtResource("2_cj8s4")
+
+[node name="FrameStatLabel" type="Label" parent="Labels"]
+offset_left = 32.0
+offset_top = 496.0
+offset_right = 928.0
+offset_bottom = 520.0
+text = "Frame stats
+"
+label_settings = SubResource("LabelSettings_fmvfp")
+script = ExtResource("3_rco3n")
+
+[node name="Label16" type="Label" parent="Labels"]
+offset_left = 400.0
+offset_top = 496.0
+offset_right = 933.0
+offset_bottom = 519.0
+text = "[F] Fullscreen | [Delete] Toggle cursor grab | [Escape] Quit"
+label_settings = SubResource("LabelSettings_574rq")
+horizontal_alignment = 2
+
+[node name="HardwareCursorMover" type="Node2D" parent="."]
+process_mode = 1
+position = Vector2(224, 192)
+script = ExtResource("4_7a8vs")
+
+[node name="ProcessMover" type="Node2D" parent="."]
+process_mode = 1
+position = Vector2(224, 224)
+script = ExtResource("5_prjey")
+
+[node name="Outline" type="Polygon2D" parent="ProcessMover"]
+color = Color(0, 0, 0, 1)
+antialiased = true
+polygon = PackedVector2Array(0, 0, 16, 16, 7, 16, 0, 21)
+
+[node name="Cursor" type="Polygon2D" parent="ProcessMover"]
+antialiased = true
+polygon = PackedVector2Array(1, 2, 14, 15, 6.5, 15, 1, 19)
+
+[node name="PhysicsMover" type="Node2D" parent="."]
+process_mode = 1
+position = Vector2(224, 256)
+script = ExtResource("6_hlt8f")
+
+[node name="Outline" type="Polygon2D" parent="PhysicsMover"]
+color = Color(0, 0, 0, 1)
+antialiased = true
+polygon = PackedVector2Array(0, 0, 16, 16, 7, 16, 0, 21)
+
+[node name="Cursor" type="Polygon2D" parent="PhysicsMover"]
+antialiased = true
+polygon = PackedVector2Array(1, 2, 14, 15, 6.5, 15, 1, 19)
