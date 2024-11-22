@@ -46,17 +46,114 @@ These tests were done without simulated load. You may get different results base
 - `vsync mailbox`, `frame_queue_size = 2`, `swapchain_image_count = 3` = **1-3 frames**
 - `vsync mailbox`, `frame_queue_size = 2`, `swapchain_image_count = 2` = **1-3 frames**
 
+### Forward+ D3D12
+
+- `vsync disabled`, `frame_queue_size = 2`, `swapchain_image_count = 3` = **0-1 frames**
+- `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_count = 3` = **4 frames**
+- `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_count = 2` = **3 frames**
+- `vsync enabled`, `frame_queue_size = 1`, `swapchain_image_count = 2` = **2 frames**
+
 ### Compatibility OpenGL, Layered DXGI (driver-level) Presentation
 
 - `vsync disabled` = **0-1 frames**
 - `vsync enabled` = **2 frames**
+- `vsync enabled`, `glfinish` = **2 frames**
 
 ### Compatibility OpenGL, Native Presentation, Windowed
 
 - `vsync disabled` = **1-3 frames**
 - `vsync enabled` = **2 frames**
+- `vsync enabled`, `glfinish` = **2 frames**
 
 ### Compatibility OpenGL, Native Presentation, Fullscreen
 
 - `vsync disabled` = **0-1 frames**
 - `vsync enabled` = **3 frames**
+- `vsync enabled`, `glfinish` = **1 frame**
+
+## Summary of findings
+
+- nVidia's layered DXGI driver option adds one frame of latency
+  - Though this is masked somewhat: `glFinish` only seems to have a noticeable impact when using Native Presentation fullscreen
+- Even in the best case scenario (no layered DXGI, `frame_queue_size = 1`), neither Vulkan nor D3D12 can beat OpenGL, with the exception of Vulkan running with `vsync mailbox`.
+- For some reason, Vulkan with `vsync mailbox` only seems to work correctly with layered DXGI
+
+## Measurements by other users
+
+- <https://chat.godotengine.org/channel/rendering/thread/9cwuxShgya9jDzXB2>
+- <https://github.com/godotengine/godot/pull/94973#issuecomment-2265610604>
+
+### MacBook Pro M3 Max
+
+Tested with Forward+ Metal (MoltenVK)
+
+- `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_count = 3` = **3 frames**
+
+### Windows, Intel UHD Graphics 620
+
+All tests are with `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_count = 3`
+
+- Vulkan, windowed, no waitable swapchain = **6 frames**
+- Vulkan, fullscreen, no waitable swapchain = **4 frames**
+- D3D12, no waitable swapchain = **4 frames**
+- D3D12, waitable swapchain = **2 frames**
+- OpenGL, windowed, no waitable swapchain = **3 frames**
+- OpenGL, windowed, waitable swapchain = **2 frames**
+
+### Windows, nVidia Optimus: GeForce MX150 on top of Intel UHD Graphics 620
+
+- D3D12, windowed = **8 frames**
+
+### X11 (KWin), Intel HD Graphics 5500
+
+All tests are with `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_count = 3`
+
+- compositing enabled, windowed, no present wait = **6 frames**
+- compositing enabled, windowed, present wait = **3 frames**
+- compositing disabled, windowed, no present wait = **4 frames**
+- compositing disabled, windowed, present wait = **2 frames**
+- compositing disabled, fullscreen, no present wait = **2 frames**
+- compositing disabled, fullscreen, present wait = **1 frame**
+
+## Best results summary so far (FIFO vsync only)
+
+These are based off of what's currently available today in Godot. Not all of these were tested with a different frame queue size.
+
+Wayland stats are unavailable as Godot currently has no way to warp the mouse cursor on that platform.
+
+Contributions welcome to help fill in missing data!
+
+1 frame is excellent, 2 frames is great, 3 frames is okay, 4 or more frames is inadequate.
+
+| Platform, GPU Vendor, Backend | Latency      | Notes                                                                    |
+| ----------------------------- | ------------ | ------------------------------------------------------------------------ |
+| Windows, nVidia, Vulkan       | **3 frames** | 3 in most cases, 2 frames with Native windowed or `frame_queue_size = 1` |
+| Windows, nVidia, D3D12        | **3 frames** | 2 frames with `frame_queue_size = 1`                                     |
+| Windows, nVidia, OpenGL       | **2 frames** | 2 in most cases, 1 frame with `glfinish` and Native Presentation         |
+| Windows, AMD, Vulkan          | ???          |                                                                          |
+| Windows, AMD, D3D12           | ???          |                                                                          |
+| Windows, AMD, OpenGL          | ???          |                                                                          |
+| Windows, Intel, Vulkan        | **4 frames** | tentative, fullscreen required                                           |
+| Windows, Intel, D3D12         | **4 frames** | tentative, 2 frames with waitable swapchain                              |
+| Windows, Intel, OpenGL        | **3 frames** | tentative, 2 frames with waitable swapchain                              |
+| X11, nVidia, OpenGL           | ???          |                                                                          |
+| X11, nVidia, Vulkan           | ???          |                                                                          |
+| X11, AMD, OpenGL              | ???          |                                                                          |
+| X11, AMD, Vulkan              | ???          |                                                                          |
+| X11, Intel, OpenGL            | ???          |                                                                          |
+| X11, Intel, Vulkan            | **2 frames** | fullscreen required, 1 frame with present wait                           |
+| Apple, macOS, MoltenVK        | **3 frames** | tentative                                                                |
+
+## Low latency enhancements tracker
+
+- [ ] Low latency mode
+  - [ ] RenderingDevice
+  - [ ] Compatibility
+- [ ] Waitable swapchains
+  - [ ] D3D12 - <https://github.com/godotengine/godot/pull/94960>
+  - [ ] Vulkan - <https://github.com/godotengine/godot/pull/94973>
+  - [ ] OpenGL
+- [ ] Direct use of DXGI on Windows
+  - [x] D3D12 (this one's a given)
+  - [ ] Vulkan - <https://github.com/DarioSamo/godot/tree/vulkan_dxgi>
+  - [ ] OpenGL - <https://github.com/godotengine/godot/pull/94503>
