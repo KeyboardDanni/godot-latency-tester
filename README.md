@@ -106,7 +106,7 @@ All tests are with `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_cou
 
 ### X11 (KWin), Intel HD Graphics 5500
 
-All tests are with `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_count = 3`
+All tests are with Vulkan, `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_count = 3`
 
 - compositing enabled, windowed, no present wait = **6 frames**
 - compositing enabled, windowed, present wait = **3 frames**
@@ -115,9 +115,9 @@ All tests are with `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_cou
 - compositing disabled, fullscreen, no present wait = **2 frames**
 - compositing disabled, fullscreen, present wait = **1 frame**
 
-## Best results summary so far (FIFO vsync only)
+## Results summary so far (FIFO vsync only)
 
-These are based off of what's currently available today in Godot. Not all of these were tested with a different frame queue size.
+Not all of these were tested with a different frame queue size.
 
 Wayland stats are unavailable as Godot currently has no way to warp the mouse cursor on that platform.
 
@@ -125,30 +125,31 @@ Contributions welcome to help fill in missing data!
 
 1 frame is excellent, 2 frames is great, 3 frames is okay, 4 or more frames is inadequate.
 
-| Platform, GPU Vendor, Backend | Latency      | Notes                                                                    |
-| ----------------------------- | ------------ | ------------------------------------------------------------------------ |
-| Windows, nVidia, Vulkan       | **3 frames** | 3 in most cases, 2 frames with Native windowed or `frame_queue_size = 1` |
-| Windows, nVidia, D3D12        | **3 frames** | 2 frames with `frame_queue_size = 1`                                     |
-| Windows, nVidia, OpenGL       | **2 frames** | 2 in most cases, 1 frame with `glfinish` and Native Presentation         |
-| Windows, AMD, Vulkan          | ???          |                                                                          |
-| Windows, AMD, D3D12           | ???          |                                                                          |
-| Windows, AMD, OpenGL          | ???          |                                                                          |
-| Windows, Intel, Vulkan        | **4 frames** | tentative, fullscreen required                                           |
-| Windows, Intel, D3D12         | **4 frames** | tentative, 2 frames with waitable swapchain                              |
-| Windows, Intel, OpenGL        | **3 frames** | tentative, 2 frames with waitable swapchain                              |
-| X11, nVidia, OpenGL           | ???          |                                                                          |
-| X11, nVidia, Vulkan           | ???          |                                                                          |
-| X11, AMD, OpenGL              | ???          |                                                                          |
-| X11, AMD, Vulkan              | ???          |                                                                          |
-| X11, Intel, OpenGL            | ???          |                                                                          |
-| X11, Intel, Vulkan            | **2 frames** | fullscreen required, 1 frame with present wait                           |
-| Apple, macOS, MoltenVK        | **3 frames** | tentative                                                                |
+| Platform, GPU Vendor, Backend | Worst Latency | Best Latency (current Godot) | Best Latency (pending improvements) | Notes                                                   |
+| ----------------------------- | ------------- | ---------------------------- | ----------------------------------- | ------------------------------------------------------- |
+| Windows, nVidia, Vulkan       | **5 frames**  | **3 frames**                 | **2 frames**                        | 2 frames with Native windowed or `frame_queue_size = 1` |
+| Windows, nVidia, D3D12        | **4 frames**  | **3 frames**                 | **2 frames**                        | 2 frames with `frame_queue_size = 1`                    |
+| Windows, nVidia, OpenGL       | **3 frames**  | **2 frames**                 | **1 frame**                         | 1 frame with `glfinish` and Native Presentation         |
+| Windows, AMD, Vulkan          | ???           | ???                          | ???                                 |                                                         |
+| Windows, AMD, D3D12           | ???           | ???                          | ???                                 |                                                         |
+| Windows, AMD, OpenGL          | ???           | ???                          | ???                                 |                                                         |
+| Windows, Intel, Vulkan        | **6 frames**  | **4 frames**                 | ???                                 | tentative, fullscreen required                          |
+| Windows, Intel, D3D12         | **4 frames**  | **4 frames**                 | **2 frames**                        | tentative, 2 frames with waitable swapchain             |
+| Windows, Intel, OpenGL        | **3 frames?** | **3 frames**                 | **2 frames?**                       | tentative, 2 frames with waitable swapchain             |
+| X11, nVidia, OpenGL           | ???           | ???                          | ???                                 |                                                         |
+| X11, nVidia, Vulkan           | ???           | ???                          | ???                                 |                                                         |
+| X11, AMD, OpenGL              | ???           | ???                          | ???                                 |                                                         |
+| X11, AMD, Vulkan              | ???           | ???                          | ???                                 |                                                         |
+| X11, Intel, OpenGL            | ???           | ???                          | ???                                 |                                                         |
+| X11, Intel, Vulkan            | **6 frames**  | **2 frames**                 | **1 frame**                         | fullscreen required, 1 frame with present wait          |
+| Apple, macOS, MoltenVK        | ???           | **3 frames**                 | ???                                 | tentative                                               |
 
 ## Low latency enhancements tracker
 
 - [ ] Low latency mode
   - [ ] RenderingDevice
   - [ ] Compatibility
+- [ ] Extraneous semaphore wait on swapchain - might be fixed by <https://github.com/godotengine/godot/pull/99257>
 - [ ] Waitable swapchains
   - [ ] D3D12 - <https://github.com/godotengine/godot/pull/94960>
   - [ ] Vulkan - <https://github.com/godotengine/godot/pull/94973>
