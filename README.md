@@ -115,6 +115,36 @@ All tests are with Vulkan, `vsync enabled`, `frame_queue_size = 2`, `swapchain_i
 - compositing disabled, fullscreen, no present wait = **2 frames**
 - compositing disabled, fullscreen, present wait = **1 frame**
 
+### X11 (KWin), NVIDIA GeForce RTX 4090 (driver 565.77)
+
+#### Default settings
+
+Vulkan, `vsync enabled`, `frame_queue_size = 2`, `swapchain_image_count = 3`:
+
+- compositing enabled, windowed, no present wait = **5 frames**
+- compositing disabled, windowed, no present wait = **4 frames**
+- compositing disabled, fullscreen, no present wait = **4 frames**
+
+OpenGL:
+
+- compositing enabled, windowed, no present wait = **4 frames**
+- compositing disabled, windowed, no present wait = **2 frames**
+- compositing disabled, fullscreen, no present wait = **2 frames**
+
+#### With `--renderer-latency low_latency` command line argument
+
+Vulkan, `vsync enabled`:
+
+- compositing enabled, windowed, no present wait = **4 frames**
+- compositing disabled, windowed, no present wait = **3 frames**
+- compositing disabled, fullscreen, no present wait = **3 frames**
+
+OpenGL:
+
+- compositing enabled, windowed, no present wait = **2-3 frames**
+- compositing disabled, windowed, no present wait = **1 frame**
+- compositing disabled, fullscreen, no present wait = **1 frame**
+
 ## Results summary so far (FIFO vsync only)
 
 Not all of these were tested with a different frame queue size.
@@ -136,8 +166,8 @@ Contributions welcome to help fill in missing data!
 | Windows, Intel, Vulkan        | **6 frames**  | **4 frames**                 | ???                                 | tentative, fullscreen required                          |
 | Windows, Intel, D3D12         | **4 frames**  | **4 frames**                 | **2 frames**                        | tentative, 2 frames with waitable swapchain             |
 | Windows, Intel, OpenGL        | **3 frames?** | **3 frames**                 | **2 frames?**                       | tentative, 2 frames with waitable swapchain             |
-| X11, nVidia, OpenGL           | ???           | ???                          | ???                                 |                                                         |
-| X11, nVidia, Vulkan           | ???           | ???                          | ???                                 |                                                         |
+| X11, nVidia, OpenGL           | **4 frames**  | **2 frames**                 | ???                                 |                                                         |
+| X11, nVidia, Vulkan           | **5 frames**  | **4 frames**                 | ???                                 |                                                         |
 | X11, AMD, OpenGL              | ???           | ???                          | ???                                 |                                                         |
 | X11, AMD, Vulkan              | ???           | ???                          | ???                                 |                                                         |
 | X11, Intel, OpenGL            | ???           | ???                          | ???                                 |                                                         |
